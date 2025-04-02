@@ -2,19 +2,18 @@ from pyray import *
 from raylib import *
 from random import randint
 
-
 class Egg_Obstacle:
     def __init__(self, min_pos, max_pos, size, color):
         self.size = size
         self.color = color
-        self.min_pos = min_pos
-        self.max_pos = max_pos
+        self.min_pos = Vector2(min_pos.x / size.x, min_pos.y / size.y)
+        self.max_pos = Vector2(max_pos.x / size.x, max_pos.y / size.y)
         self.position = self.reloc_position()
 
     def reloc_position(self):
-        x = randint(int(self.min_pos.x / self.size.x), int((self.max_pos.x - self.size.x) / self.size.x) - 2)
-        y = randint(int(self.min_pos.y / self.size.y), int((self.max_pos.y - self.size.y) / self.size.y) - 2)
-        vec = Vector2(self.min_pos.x + (x * self.size.x), self.min_pos.y + (y * self.size.y))
+        x = randint(int(self.min_pos.x), int(self.max_pos.x) - 1)
+        y = randint(int(self.min_pos.y), int(self.max_pos.y) - 1)
+        vec = Vector2(x * self.size.x, y * self.size.y)
         return vec
 
     def draw(self):

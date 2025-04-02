@@ -55,15 +55,15 @@ class Game_StateRun:
         else:
             return False
 
-    def is_egg_on_snake(self, egg, egg_size, snake):
+    def is_egg_on_snake(self, egg_pos, egg_size, snake):
         for node in snake.node_chain:
-            if self.is_collision(node, snake.size, egg, egg_size) is True:
+            if self.is_collision(node, snake.size, egg_pos, egg_size) is True:
                 return True
         return False
 
-    def reloc_egg(self, egg, snake):
+    def safe_egg_reloc(self, egg, snake):
         while True:
-            egg.position = context.egg.reloc_position()
+            egg.position = egg.reloc_position()
             if self.is_egg_on_snake(egg.position, egg.size, snake) is False:
                 break
 
@@ -89,7 +89,7 @@ class Game_StateRun:
                     , context.egg.position
                     , context.egg.size) is True:
                 context.score += 1
-                self.reloc_egg(context.egg, context.snake)
+                self.safe_egg_reloc(context.egg, context.snake)
                 context.snake.append_node()
             else:
                 context.egg.draw()
